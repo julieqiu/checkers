@@ -4,18 +4,18 @@ class Board:
     def __init__(self):
         self.row = 8
         self.column = 8
-        self.red_pieces = 1
-        self.black_pieces = 1
-        #self.board = [[None for x in range(self.row)] for i in range(self.column)]
+        self.red_pieces = 12
+        self.black_pieces = 12
+        self.board = [[None for x in range(self.row)] for i in range(self.column)]
 
-        # for row in range(3):
-        #     for tile in range(8):
-        #         if (row % 2) == (tile % 2):
-        #             self.board[row][tile] = Piece("R")
-        # for row in range(5, 8):
-        #     for tile in range(8):
-        #         if (row % 2) == (tile % 2):
-        #             self.board[row][tile] = Piece("B")
+        for row in range(3):
+            for tile in range(8):
+                if (row % 2) == (tile % 2):
+                    self.board[row][tile] = Piece("R")
+        for row in range(5, 8):
+            for tile in range(8):
+                if (row % 2) == (tile % 2):
+                    self.board[row][tile] = Piece("B")
 
         # self.board = [[Piece("R"),None,Piece("R"),None,Piece("R"),None,Piece("R"),None],
         #              [None,Piece("R"),None,None,None,Piece("R"),None,Piece("R")],
@@ -26,14 +26,14 @@ class Board:
         #              [None,None,Piece("B"),None,Piece("B"),None,None,None],
         #              [None,Piece("B"),None,Piece("B"),None,Piece("B"),None,Piece("B")]]
 
-        self.board = [[None,None,None,None,None,None,None,None],
-                     [None,None,None,None,None,None,None,None],
-                     [None,None,None,None,None,None,None,None],
-                     [None,None,None,None,None,None,None,None],
-                     [None,Piece("R"),None,None,None,None,None,None],
-                     [None,None,Piece("B"),None,None,None,None,None],
-                     [None,None,None,None,None,None,None,None],
-                     [None,None,None,None,None,None,None,None]]
+        # self.board = [[None,None,None,None,None,None,None,None],
+        #              [None,None,None,None,None,None,None,None],
+        #              [None,None,None,None,None,None,None,None],
+        #              [None,None,None,None,None,None,None,None],
+        #              [None,Piece("R"),None,None,None,None,None,None],
+        #              [None,None,Piece("B"),None,None,None,None,None],
+        #              [None,None,None,None,None,None,None,None],
+        #              [None,None,None,None,None,None,None,None]]
 
     def lose_piece(self, color):
         if color == "R":
@@ -58,6 +58,24 @@ class Board:
             print array
             x += 1
         print self.red_pieces, self.black_pieces
+
+    def return_board(self):
+        top_border = '|___|'
+        for x in range(8):
+            top_border = top_border + "|_" + str(x) + "_|"
+
+
+        x = 0
+        for row in self.board:
+            array = "|_" + str(x) + "_|"
+            for col in row:
+                if col == None:
+                    array += "|___|"
+                else:
+                    array += "|_" + col.icon + "_|"
+            top_border += "<br>" + array
+            x += 1
+        return top_border
 
     def make_jump(self, row, col, to_row, to_col):
         jump_row = abs((row + to_row) / 2)
