@@ -1,12 +1,14 @@
 # Checkers Game
 
+
 class Board:
     def __init__(self):
         self.row = 8
         self.column = 8
         self.red_pieces = 12
         self.black_pieces = 12
-        self.board = [[None for x in range(self.row)] for i in range(self.column)]
+        self.board = [[None for x in range(self.row)]
+                      for i in range(self.column)]
 
         for row in range(3):
             for tile in range(8):
@@ -17,7 +19,8 @@ class Board:
                 if (row % 2) == (tile % 2):
                     self.board[row][tile] = Piece("B")
 
-        # self.board = [[Piece("R"),None,Piece("R"),None,Piece("R"),None,Piece("R"),None],
+        # self.board = [[Piece("R"),None,Piece("R"),None,Piece("R"),None,
+        #                Piece("R"), None],
         #              [None,Piece("R"),None,None,None,Piece("R"),None,Piece("R")],
         #              [Piece("R"),None,Piece("R"),None,Piece("R"),None,None,None],
         #              [None,None,None,Piece("B"),None,None,None,Piece("R")],
@@ -39,7 +42,7 @@ class Board:
         if color == "R":
             self.red_pieces -= 1
         elif color == "B":
-            self.black_pieces -=1
+            self.black_pieces -= 1
 
     def draw_board(self):
         top_border = '|___|'
@@ -51,7 +54,7 @@ class Board:
         for row in self.board:
             array = "| " + str(x) + " |"
             for col in row:
-                if col == None:
+                if col is None:
                     array += "|   |"
                 else:
                     array += "| " + col.icon + " |"
@@ -63,13 +66,11 @@ class Board:
         top_border = '|___|'
         for x in range(8):
             top_border = top_border + "|_" + str(x) + "_|"
-
-
         x = 0
         for row in self.board:
             array = "|_" + str(x) + "_|"
             for col in row:
-                if col == None:
+                if col is None:
                     array += "|___|"
                 else:
                     array += "|_" + col.icon + "_|"
@@ -82,22 +83,19 @@ class Board:
         jump_col = abs((col + to_col) / 2)
         self.board[to_row][to_col] = self.get_piece(row, col)
         self.lose_piece(self.get_piece(jump_row, jump_col).color)
-        if self.is_king_row(row, col, to_row, to_col) == True:
+        if self.is_king_row(row, col, to_row, to_col) is True:
             self.get_piece(row, col).make_king()
         self.board[row][col] = None
         self.board[jump_row][jump_col] = None
 
-
     def make_move(self, row, col, to_row, to_col):
         self.board[to_row][to_col] = self.get_piece(row, col)
-        if self.is_king_row(row, col, to_row, to_col) == True:
+        if self.is_king_row(row, col, to_row, to_col) is True:
             self.get_piece(row, col).make_king()
-        self.board[row][col] = None
-
+        self.board[row][col] is None
 
     def is_king_row(self, row, col, to_row, to_col):
         piece = self.get_piece(row, col)
-        piece_type = piece.type
         piece_color = piece.color
         if (to_row == 0 and piece_color == "B"):
             return True
@@ -106,10 +104,8 @@ class Board:
         else:
             return False
 
-
     def contains_piece(self, row, col):
-        return self.board[row][col] != None
-
+        return self.board[row][col] is not None
 
     def is_valid_jump(self, row, col, to_row, to_col):
         if (to_row > 7) or (to_row < 0) or (to_col > 7) or (to_col < 0):
@@ -120,7 +116,7 @@ class Board:
             print "There's a piece at ", to_row, to_col
             return False
 
-        if not ((to_col == col + 2) or (to_col == col -2)):
+        if not ((to_col == col + 2) or (to_col == col - 2)):
             print "Invalid Jump! Can't move to that position"
             return False
 
@@ -149,13 +145,12 @@ class Board:
         # Checks if there is a piece to jump
         jump_row = (row + to_row) / 2
         jump_col = (col + to_col) / 2
-        if self.get_piece(jump_row, jump_col) == None:
+        if self.get_piece(jump_row, jump_col) is None:
             print jump_row
             print jump_col
             print self.get_piece(jump_row, jump_col)
             print "Invalid jump! There is no piece to jump"
             return False
-
 
         opp_color = self.get_piece(jump_row, jump_col).color
         curr_color = self.get_piece(row, col).color
@@ -165,11 +160,6 @@ class Board:
             return False
 
         return True
-
-
-
-        # if the it jumps over an opposing player's piece
-        # if the piece that it is moving to does not contain a piece
 
     def is_valid_move(self, row, col, to_row, to_col):
         piece = self.get_piece(row, col)
@@ -212,11 +202,13 @@ class Piece:
         self.type = "king"
         self.icon = self.color.lower()
 
+
 class Player:
     def __init__(self, color, name):
         self.color = color
         self.name = name
         self.pieces = 12
+
 
 class Checkers:
     def __init__(self, player1, player2):
@@ -237,12 +229,12 @@ class Checkers:
 
     def select_piece(self):
 
-
-        validPiece = False
-        while not validPiece:
+        valid_piece = False
+        while not valid_piece:
             row = ' '
             col = ' '
-            print self.current_player.name + ", which piece would you like to move?"
+            print self.current_player.name + \
+                ", which piece would you like to move?"
             while not (row.isdigit() and 0 <= int(row) < 8):
                 row = raw_input("Row: ")
             while not (col.isdigit() and 0 <= int(row) < 8):
@@ -253,14 +245,15 @@ class Checkers:
             print row
             print col
 
-            if not self.board.contains_piece(row,col):
+            if not self.board.contains_piece(row, col):
                 print "There's no piece there!"
                 continue
 
-            if self.board.get_piece(row, col).color != self.current_player.color:
+            if self.board.get_piece(row, col).color != \
+               self.current_player.color:
                 print "That's not your piece!"
                 continue
-            validPiece = True
+            valid_piece = True
 
         return row, col
 
@@ -268,7 +261,8 @@ class Checkers:
         to_row = ' '
         to_col = ' '
 
-        print self.current_player.name + ", where would you like to move it to?"
+        print self.current_player.name + \
+            ", where would you like to move it to?"
         while not ((to_row).isdigit() and 0 <= int(to_row) < 8):
             to_row = raw_input("Row: ")
         while not ((to_col).isdigit() and 0 <= int(to_col) < 8):
@@ -290,16 +284,16 @@ class Checkers:
 
     def start_game(self):
         self.board.draw_board()
-        playingGame = True
-        while playingGame:
-            isValidMove = False
-            while not isValidMove:
+        playing_game = True
+        while playing_game:
+            is_valid_move = False
+            while not is_valid_move:
                 row, col = self.select_piece()
                 to_row, to_col = self.select_move()
 
                 if self.board.is_valid_move(row, col, to_row, to_col):
                     self.board.make_move(row, col, to_row, to_col)
-                    isValidMove = True
+                    is_valid_move = True
                 elif self.board.is_valid_jump(row, col, to_row, to_col):
                     self.board.make_jump(row, col, to_row, to_col)
                     self.board.draw_board()
@@ -312,9 +306,9 @@ class Checkers:
                         if self.board.is_valid_jump(row, col, to_row, to_col):
                             self.board.make_jump(row, col, to_row, to_col)
                             row, col = to_row, to_col
-                    isValidMove = True
+                    is_valid_move = True
                 self.board.draw_board()
-                playingGame = not(self.check_game_over())
+                playing_game = not(self.check_game_over())
             self.switch_player()
             self.board.draw_board()
 
