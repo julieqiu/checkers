@@ -3,11 +3,21 @@
     <title>{{ title }}</title>
   </head>
   <body>
-     <div><h1>Hello, {{ current_player }}!</h1></div>
+     <div><h1>Hello, {{ player_id }}!</h1></div>
      <div><p>{{ board }}</p></div>
 
     <div>
-        <form action = "/index">
+        {% if current_player == player_id %}
+          <p>It's your turn!</p>
+        {% else %}
+          <p>Waiting for the other player to move</p>
+        {% endif %}
+
+    <div>
+        <form action = "/index/{{game_id}}/{{player_id}}">
+<!--            <input type="hidden" name="game_id" value="{{game_id}}">
+            <input type="hidden" name="player_id" value="{{player_id}}">
+-->
             <select name="row">
             {% for item in moves_lst %}
               <option value="{{item}}">{{item}}</option>
