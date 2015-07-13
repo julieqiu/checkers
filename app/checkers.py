@@ -7,27 +7,26 @@ class Board:
         self.column = 8
         self.red_pieces = 12
         self.black_pieces = 12
-        self.board = [[None for x in range(self.row)]
-                      for i in range(self.column)]
+        # self.board = [[None for x in range(self.row)]
+        #               for i in range(self.column)]
 
-        for row in range(3):
-            for tile in range(8):
-                if (row % 2) == (tile % 2):
-                    self.board[row][tile] = Piece("R")
-        for row in range(5, 8):
-            for tile in range(8):
-                if (row % 2) == (tile % 2):
-                    self.board[row][tile] = Piece("B")
+        # for row in range(3):
+        #     for tile in range(8):
+        #         if (row % 2) == (tile % 2):
+        #             self.board[row][tile] = Piece("R")
+        # for row in range(5, 8):
+        #     for tile in range(8):
+        #         if (row % 2) == (tile % 2):
+        #             self.board[row][tile] = Piece("B")
 
-        # self.board = [[Piece("R"),None,Piece("R"),None,Piece("R"),None,
-        #                Piece("R"), None],
-        #              [None,Piece("R"),None,None,None,Piece("R"),None,Piece("R")],
-        #              [Piece("R"),None,Piece("R"),None,Piece("R"),None,None,None],
-        #              [None,None,None,Piece("B"),None,None,None,Piece("R")],
-        #              [None,None,None,None,Piece("B"),None,None,None],
-        #              [None,Piece("B"),None,Piece("B"),None,None,None,Piece("B")],
-        #              [None,None,Piece("B"),None,Piece("B"),None,None,None],
-        #              [None,Piece("B"),None,Piece("B"),None,Piece("B"),None,Piece("B")]]
+        self.board = [[Piece("R"),None,Piece("R"),None,Piece("R"),None,Piece("R"), None],
+                     [None,Piece("R"),None,None,None,Piece("R"),None,Piece("R")],
+                     [Piece("R"),None,Piece("R"),None,Piece("R"),None,None,None],
+                     [None,None,None,Piece("B"),None,None,None,Piece("R")],
+                     [None,None,None,None,Piece("B"),None,Piece("B"),None],
+                     [None,Piece("B"),None,Piece("B"),None,None,None,None],
+                     [None,None,Piece("B"),None,Piece("B"),None,None,None],
+                     [None,Piece("B"),None,Piece("B"),None,Piece("B"),None,Piece("B")]]
 
         # self.board = [[None,None,None,None,None,None,None,None],
         #              [None,None,None,None,None,None,None,None],
@@ -92,7 +91,7 @@ class Board:
         self.board[to_row][to_col] = self.get_piece(row, col)
         if self.is_king_row(row, col, to_row, to_col) is True:
             self.get_piece(row, col).make_king()
-        self.board[row][col] is None
+        self.board[row][col] = None
 
     def is_king_row(self, row, col, to_row, to_col):
         piece = self.get_piece(row, col)
@@ -256,6 +255,18 @@ class Checkers:
             valid_piece = True
 
         return row, col
+
+    def client_check_valid_piece(self, row, col):
+        if not self.board.contains_piece(row, col):
+            print "There's no piece there!"
+            return False
+
+        if self.board.get_piece(row, col).color != \
+           self.current_player.color:
+            print "That's not your piece!"
+            return False
+
+        return True
 
     def select_move(self):
         to_row = ' '

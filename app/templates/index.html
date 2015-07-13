@@ -3,7 +3,45 @@
     <title>{{ title }}</title>
   </head>
   <body>
-      <h1>Hello, {{ user.nickname }}!</h1>
-      <p>{{ board }}</p>
+     <div><h1>Hello, {{ current_player }}!</h1></div>
+     <div><p>{{ board }}</p></div>
+
+    <div>
+        <form action = "/index">
+            <select name="row">
+            {% for item in moves_lst %}
+              <option value="{{item}}">{{item}}</option>
+            {% endfor %}
+            </select>
+
+            <select name="col">
+            {% for item in moves_lst %}
+              <option value="{{item}}">{{item}}</option>
+            {% endfor %}
+            </select>
+
+            <select name="to_row">
+            {% for item in moves_lst %}
+              <option value="{{item}}">{{item}}</option>
+            {% endfor %}
+            </select>
+
+            <select name="to_col">
+            {% for item in moves_lst %}
+              <option value="{{item}}">{{item}}</option>
+            {% endfor %}
+            </select>
+            <input type = "submit" value = "Submit">
+        </form>
+    </div>
+    <div>
+        <form action = "/setuser">
+            <select name="user">
+                <option value="R">R</option>
+                <option value="B">B</option>
+            </select>
+            <input type = "submit" value = "Submit">
+        </form>
+    </div>
   </body>
 </html>
