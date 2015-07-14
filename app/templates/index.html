@@ -5,7 +5,6 @@
   </head>
   <body>
      <div id="hello"><h1>Hello, {{ player_id }}!</h1></div>
-     <button type="button" onclick="loadXMLDoc()">Change Content</button>
 
      <div id="current_board" class="current_board">
      {% for row in range(8)%}
@@ -165,47 +164,50 @@
       for (var i = 0; i < serverboard.length; i++) {
         for (var j = 0; j < serverboard[i].length; j++) {
           if (serverboard[i][j] != clientboard[i][j]){
+
             var newClass = ""
             var newClick = ""
+
+            console.log(serverboard[i][j]);
+
             switch (serverboard[i][j]) {
+
               case "R":
+                console.log("R")
                 newClass = "redpiece";
-                newClick = function(i,j) {
-                  selectPiece(i,j)
-                };
+                newClick = "movePiece("+i+","+j+")";
                 break;
               case "B":
+                console.log("B")
                 newClass = "bluepiece";
-                newClick = function(i,j) {
-                  selectPiece(i,j)
-                };
+                newClick = "selectPiece("+i+","+j+")";
                 break;
               case "r":
+                console.log("r")
                 newClass = "redking";
-                newClick = function(i,j) {
-                  selectPiece(i,j)
-                };
+                newClick = "selectPiece("+i+","+j+")";
                 break;
               case "b":
+                console.log("b")
                 newClass = "blueking";
-                newClick = function(i,j) {
-                  selectPiece(i,j)
-                };
+                newClick = "selectPiece("+i+","+j+")";
                 break;
               case "W":
+                console.log("W")
                 newClass = "whitetile";
-                newClick = function(i,j) {
-                  movePiece(i,j)
-                };
+                newClick = "movePiece("+i+","+j+")";
+                console.log(newClick)
                 break;
               case "G":
-                newClass = "blacktile"
-
+                newClass = "blacktile";
+                newClick = "movePiece("+i+","+j+")";
+                console.log(newClick)
                 break;
               default:
                 break;
             }
-            document.getElementById(i.toString() + j.toString()).onclick = newClick;
+
+            document.getElementById(i.toString() + j.toString()).setAttribute('onclick', newClick);
             document.getElementById(i.toString() + j.toString()).className = newClass;
 
 
