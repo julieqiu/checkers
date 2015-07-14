@@ -1,57 +1,219 @@
 <html>
   <head>
     <title>{{ title }}</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for("static", filename="index.css")}}">
   </head>
   <body>
-     <div><h1>Hello, {{ player_id }}!</h1></div>
-     <div><p>{{ board }}</p></div>
+     <div id="hello"><h1>Hello, {{ player_id }}!</h1></div>
+     <button type="button" onclick="loadXMLDoc()">Change Content</button>
 
-    <div>
+     <div id="current_board" class="current_board">
+     {% for row in range(8)%}
+     <div>
+            {% for col in range(8) %}
+             {% if board[row][col] == "R" %}
+             <button id="{{row}}{{col}}" class = "redpiece" onclick="selectPiece({{row}},{{col}})"></button>
+
+             {% elif board[row][col] == "B" %}
+             <button id="{{row}}{{col}}" class = "bluepiece" onclick="selectPiece({{row}},{{col}})"></button>
+
+              {% elif board[row][col] == "r" %}
+             <button id="{{row}}{{col}}" class = "redking" onclick="selectPiece({{row}},{{col}})"></button>
+
+              {% elif board[row][col] == "b" %}
+             <button id="{{row}}{{col}}" class = "blueking" onclick="selectPiece({{row}},{{col}})"></button>
+
+             {% elif board[row][col] == "G" %}
+             <button id="{{row}}{{col}}" class = "blacktile" onclick="movePiece({{row}},{{col}})"></button>
+
+             {% elif board[row][col] == "W" %}
+             <button id="{{row}}{{col}}" class = "whitetile" onclick="movePiece({{row}},{{col}})"></button>
+
+             {% endif %}
+
+           {% endfor %}
+      </div>
+          {% endfor %}
+{#
+             {% if board[row][col] == "R" %}
+             <img src = {{url_for('static', filename = "red.gif")}} onclick="selectPiece({{row}},{{col}})">
+
+             {% elif board[row][col] == "B" %}
+             <img src = {{url_for('static', filename = "black.gif"
+             )}} onclick="selectPiece({{row}},{{col}})">
+
+              {% elif board[row][col] == "r" %}
+             <img src = {{url_for('static', filename = "redking.gif"
+             )}} onclick="selectPiece({{row}},{{col}})">
+
+              {% elif board[row][col] == "b" %}
+             <img src = {{url_for('static', filename = "blueking.gif"
+             )}} onclick="selectPiece({{row}},{{col}})">
+
+             {% elif board[row][col] == "G" %}
+             <img src = {{url_for('static', filename = "blank2.gif")}} onclick="moveTo({{row}},{{col}})">
+
+             {% elif board[row][col] == "W" %}
+             <img src = {{url_for('static', filename = "blank1.gif")}} onclick="moveTo({{row}},{{col}})">
+
+             {% else %}
+
+             {% endif %}
+           {% endfor %}
+           <br>
+          {% endfor %}
+#}
+     </div>
+
+
+    <div id="message">
         {% if current_player == player_id %}
-          <p>It's your turn!</p>
+          <p id = "yourturn">It's your turn!</p>
         {% else %}
-          <p>Waiting for the other player to move</p>
+          <p id ="waiting">Waiting for the other player to move</p>
         {% endif %}
+    </div>
 
     <div>
-        <form action = "/index/{{game_id}}/{{player_id}}">
+        <form id="myForm" action = "/index/{{game_id}}/{{player_id}}">
 <!--            <input type="hidden" name="game_id" value="{{game_id}}">
             <input type="hidden" name="player_id" value="{{player_id}}">
 -->
-            <select name="row">
-            {% for item in moves_lst %}
-              <option value="{{item}}">{{item}}</option>
-            {% endfor %}
-            </select>
+            <input type="" id="row" name="row">
 
-            <select name="col">
-            {% for item in moves_lst %}
-              <option value="{{item}}">{{item}}</option>
-            {% endfor %}
-            </select>
 
-            <select name="to_row">
-            {% for item in moves_lst %}
-              <option value="{{item}}">{{item}}</option>
-            {% endfor %}
-            </select>
+            <input type=""  id="col" name="col">
 
-            <select name="to_col">
-            {% for item in moves_lst %}
-              <option value="{{item}}">{{item}}</option>
-            {% endfor %}
-            </select>
-            <input type = "submit" value = "Submit">
+
+            <input type=""  id="to_row" name="to_row">
+
+
+            <input type=""  id="to_col" name="to_col">
+
         </form>
     </div>
-    <div>
-        <form action = "/setuser">
-            <select name="user">
-                <option value="R">R</option>
-                <option value="B">B</option>
-            </select>
-            <input type = "submit" value = "Submit">
-        </form>
-    </div>
+    <script>
+
+    function movePiece(r, c){
+      document.getElementById('to_row').value = r;
+      document.getElementById('to_col').value = c;
+      document.getElementById('myForm').submit();
+    }
+
+    function selectPiece(r, c){
+      document.getElementById('row').value = r;
+      document.getElementById('col').value = c;
+    }
+
+        var callAjax = function (callback)
+      {
+        var xmlhttp=new XMLHttpRequest();
+        xmlhttp.onload=callback;
+        xmlhttp.open("GET", "/boardstate/{{game_id}}",true);
+        xmlhttp.send();
+
+            //console.log(xmlhttp.responseText);
+            //document.getElementsByClassName("current_board").innerHTML=xmlhttp.responseText;
+            //console.log(document.getElementsByClassName("current_board").innerHTML)
+      }
+        setInterval(function(){
+        callAjax(function(response){
+        console.log("got response")
+        compareBoards(JSON.parse(response.target.responseText),getBoardState())
+        })
+      },1000)
+
+    var getBoardState = function(){
+      var board = document.getElementById("current_board");
+      var nodes = document.getElementById("current_board").children;
+      var current_board = [];
+      var i;
+      for (i = 0; i < nodes.length; i++){
+        var j;
+        var current_row = [];
+        for (j = 0; j < nodes[i].children.length; j++){
+            piece = nodes[i].children[j].className;
+            switch (piece) {
+              case "redpiece":
+                current_row.push("R")
+                break;
+              case "bluepiece":
+                current_row.push("B")
+                break;
+              case "redking":
+                current_row.push("r")
+                break;
+              case "blueking":
+                current_row.push("b")
+                break;
+              case "whitetile":
+                current_row.push("W")
+                break;
+              case "blacktile":
+                current_row.push("G")
+                break;
+              default:
+                break;
+            }
+        }
+        current_board.push(current_row);
+      }
+      return current_board;
+    }
+
+    var compareBoards = function(serverboard, clientboard) {
+      for (var i = 0; i < serverboard.length; i++) {
+        for (var j = 0; j < serverboard[i].length; j++) {
+          if (serverboard[i][j] != clientboard[i][j]){
+            var newClass = ""
+            var newClick = ""
+            switch (serverboard[i][j]) {
+              case "R":
+                newClass = "redpiece";
+                newClick = function(i,j) {
+                  selectPiece(i,j)
+                };
+                break;
+              case "B":
+                newClass = "bluepiece";
+                newClick = function(i,j) {
+                  selectPiece(i,j)
+                };
+                break;
+              case "r":
+                newClass = "redking";
+                newClick = function(i,j) {
+                  selectPiece(i,j)
+                };
+                break;
+              case "b":
+                newClass = "blueking";
+                newClick = function(i,j) {
+                  selectPiece(i,j)
+                };
+                break;
+              case "W":
+                newClass = "whitetile";
+                newClick = function(i,j) {
+                  movePiece(i,j)
+                };
+                break;
+              case "G":
+                newClass = "blacktile"
+
+                break;
+              default:
+                break;
+            }
+            document.getElementById(i.toString() + j.toString()).onclick = newClick;
+            document.getElementById(i.toString() + j.toString()).className = newClass;
+
+
+          };
+        };
+      };
+    };
+
+    </script>
   </body>
 </html>

@@ -1,6 +1,7 @@
 from flask import render_template, Markup, request, make_response
 from app import app
 import checkers
+import json
 
 user = {'nickname': 'Miguel'}  # fake user
 moves_lst = ["0", "1", "2", "3", "4", "5", "6", "7"]
@@ -25,6 +26,12 @@ def start():
             game_id=game_id,
             player_id_1=player_id_1,
             player_id_2=player_id_2)
+    return resp
+
+@app.route('/boardstate/<game_id>')
+def board(game_id):
+    x = games[int(game_id)]
+    resp = json.dumps(x.board.return_board_3())
     return resp
 
 @app.route('/index/<game_id>/<player_id>')
@@ -76,7 +83,7 @@ def index(game_id, player_id):
         print e
         pass
 
-    board = Markup("<pre>" + x.board.return_board() + "</pre>")
+    board = x.board.return_board_3()
     current_player = x.current_player.color
     print board
 

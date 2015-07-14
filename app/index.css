@@ -1,0 +1,30 @@
+.hello{
+    font:20px;
+    color: blue;
+}
+.redpiece {
+    background-image: url("red.gif");
+    display: inline;
+    width: 100px;
+    height: 100px;
+}
+
+.bluepiece {
+    background-image: url("black.gif");
+}
+
+.redking {
+    background-image: url("redking.gif");
+}
+
+.blueking {
+    background-image: url("blueking.gif");
+}
+
+.whitetile {
+    background-image: url(blank1.gif)
+}
+
+.blacktile {
+    background-image: url(static/blank2.gif)
+}

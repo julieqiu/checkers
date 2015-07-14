@@ -77,6 +77,41 @@ class Board:
             x += 1
         return top_border
 
+    def return_board_2(self):
+        array = ""
+
+        for row in range(8):
+            for col in range(8):
+                tile = self.board[row][col]
+                if tile is None:
+                    if (row % 2 == col % 2):
+                        array += "G"
+                    else:
+                        array += "W"
+                else:
+                    array += tile.icon
+            array += "X"
+
+        return array
+
+    def return_board_3(self):
+        array = []
+
+        for row in range(8):
+            items = []
+            for col in range(8):
+                tile = self.board[row][col]
+                if tile is None:
+                    if (row % 2 == col % 2):
+                        items.append("G")
+                    else:
+                        items.append("W")
+                else:
+                    items.append(tile.icon)
+            array += [items]
+
+        return array
+
     def make_jump(self, row, col, to_row, to_col):
         jump_row = abs((row + to_row) / 2)
         jump_col = abs((col + to_col) / 2)
