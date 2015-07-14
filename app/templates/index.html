@@ -65,33 +65,23 @@
      </div>
 
 
-    <div id="message">
-        {% if current_player == player_id %}
-          <p id = "yourturn">It's your turn!</p>
-        {% else %}
-          <p id ="waiting">Waiting for the other player to move</p>
-        {% endif %}
-    </div>
+    <div id="message"></div>
 
     <div>
         <form id="myForm" action = "/index/{{game_id}}/{{player_id}}">
 <!--            <input type="hidden" name="game_id" value="{{game_id}}">
             <input type="hidden" name="player_id" value="{{player_id}}">
 -->
-            <input type="" id="row" name="row">
-
-
-            <input type=""  id="col" name="col">
-
-
-            <input type=""  id="to_row" name="to_row">
-
-
-            <input type=""  id="to_col" name="to_col">
+            <input type="hidden" id="row" name="row">
+            <input type="hidden"  id="col" name="col">
+            <input type="hidden"  id="to_row" name="to_row">
+            <input type="hidden"  id="to_col" name="to_col">
 
         </form>
     </div>
     <script>
+
+    player_id = "{{player_id}}"
 
     function movePiece(r, c){
       document.getElementById('to_row').value = r;
@@ -118,9 +108,13 @@
         setInterval(function(){
         callAjax(function(response){
         console.log("got response")
-        compareBoards(JSON.parse(response.target.responseText),getBoardState())
+        current = JSON.parse(response.target.responseText)
+        serverboard = current[0]
+        serverplayer = current[1]
+        compareBoards(serverboard,getBoardState())
+        updatePlayer(serverplayer)
         })
-      },1000)
+      },500)
 
     var getBoardState = function(){
       var board = document.getElementById("current_board");
@@ -206,15 +200,22 @@
               default:
                 break;
             }
-
             document.getElementById(i.toString() + j.toString()).setAttribute('onclick', newClick);
             document.getElementById(i.toString() + j.toString()).className = newClass;
-
-
           };
         };
       };
     };
+
+    var updatePlayer = function(serverplayer) {
+      console.log("updating player")
+      if (serverplayer == player_id) {
+        document.getElementById("message").innerHTML ="It's your turn!";
+      }
+      else {
+        document.getElementById("message").innerHTML ="Waiting for the other player to move";
+      }
+    }
 
     </script>
   </body>

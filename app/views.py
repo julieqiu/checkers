@@ -31,7 +31,8 @@ def start():
 @app.route('/boardstate/<game_id>')
 def board(game_id):
     x = games[int(game_id)]
-    resp = json.dumps(x.board.return_board_3())
+    print x.current_player.color
+    resp = json.dumps([x.board.return_board_3(), x.current_player.color])
     return resp
 
 @app.route('/index/<game_id>/<player_id>')
