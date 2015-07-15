@@ -97,27 +97,7 @@
       document.getElementById('col').value = c;
     }
 
-    var callAjax = function (callback)
-      {
-        var xmlhttp=new XMLHttpRequest();
-        xmlhttp.onload=callback;
-        xmlhttp.open("GET", "/boardstate/{{game_id}}",true);
-        xmlhttp.send();
 
-            //console.log(xmlhttp.responseText);
-            //document.getElementsByClassName("current_board").innerHTML=xmlhttp.responseText;
-            //console.log(document.getElementsByClassName("current_board").innerHTML)
-      }
-        setInterval(function(){
-        callAjax(function(response){
-        console.log("got response")
-        current = JSON.parse(response.target.responseText)
-        serverboard = current[0]
-        serverplayer = current[1]
-        compareBoards(serverboard,getBoardState())
-        updatePlayer(serverplayer)
-        })
-      },500)
 
     var getBoardState = function(){
       var board = document.getElementById("current_board");
