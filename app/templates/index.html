@@ -24,7 +24,7 @@
              <button id="{{row}}{{col}}" class = "blueking" onclick="selectPiece({{row}},{{col}})"></button>
 
              {% elif board[row][col] == "G" %}
-             <button id="{{row}}{{col}}" onclick="movePiece({{row}},{{col}})"><img src = profile_picture_url></button>
+             <button id="{{row}}{{col}}" class = "blacktile" onclick="movePiece({{row}},{{col}})"></button>
 
              {% elif board[row][col] == "W" %}
              <button id="{{row}}{{col}}" class = "whitetile" onclick="movePiece({{row}},{{col}})"></button>
@@ -81,12 +81,6 @@
         </form>
     </div>
     <script>
-    {% include "facebook.html" %}
-
-    var profile_picture_url = checkLoginState()
-    console.log(profile_picture_url)
-
-
 
     player_id = "{{player_id}}"
 
@@ -225,6 +219,11 @@
         document.getElementById("message").innerHTML ="Waiting for the other player to move";
       }
     }
+
+    {% include "facebook.html" %}
+
+    var profile_picture_url = checkLoginState()
+    console.log(profile_picture_url)
 
     </script>
   </body>
