@@ -1,3 +1,4 @@
+
 <html>
   <head>
     <title>{{ title }}</title>
@@ -23,7 +24,7 @@
              <button id="{{row}}{{col}}" class = "blueking" onclick="selectPiece({{row}},{{col}})"></button>
 
              {% elif board[row][col] == "G" %}
-             <button id="{{row}}{{col}}" class = "blacktile" onclick="movePiece({{row}},{{col}})"></button>
+             <button id="{{row}}{{col}}" onclick="movePiece({{row}},{{col}})"><img src = profile_picture_url></button>
 
              {% elif board[row][col] == "W" %}
              <button id="{{row}}{{col}}" class = "whitetile" onclick="movePiece({{row}},{{col}})"></button>
@@ -80,9 +81,16 @@
         </form>
     </div>
     <script>
+    {% include "facebook.html" %}
+
+    var profile_picture_url = checkLoginState()
+    console.log(profile_picture_url)
+
 
 
     player_id = "{{player_id}}"
+
+
 
     function movePiece(r, c){
       document.getElementById('to_row').value = r;
@@ -95,7 +103,7 @@
       document.getElementById('col').value = c;
     }
 
-        var callAjax = function (callback)
+    var callAjax = function (callback)
       {
         var xmlhttp=new XMLHttpRequest();
         xmlhttp.onload=callback;
