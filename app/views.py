@@ -78,10 +78,11 @@ def index(game_id, player_id):
         if x.check_game_over():
             print "Game Over"
 
-        except Exception as e:
-            pass
+    except Exception as e:
+        pass
     
-board = x.board.return_board_3()
+    board = x.board.return_board_3()
+    
     current_player = x.current_player.color
     print board
 
