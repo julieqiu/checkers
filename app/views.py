@@ -13,7 +13,6 @@ player_id_2 = "B"
 player_must_jump = False
 player_must_move = None
 
-
 @app.route('/')
 def start():
     global game_id

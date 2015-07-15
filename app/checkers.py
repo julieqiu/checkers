@@ -1,6 +1,5 @@
 # Checkers Game
 
-
 class Board:
     def __init__(self):
         self.row = 8
