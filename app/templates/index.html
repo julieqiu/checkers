@@ -108,7 +108,6 @@
       }
         setInterval(function(){
         callAjax(function(response){
-        console.log("got response")
         current = JSON.parse(response.target.responseText)
         serverboard = current[0]
         serverplayer = current[1]
@@ -211,7 +210,6 @@
     };
 
     var updatePlayer = function(serverplayer) {
-      console.log("updating player")
       if (serverplayer == player_id) {
         document.getElementById("message").innerHTML ="It's your turn!";
       }
@@ -223,13 +221,13 @@
 
     {% include 'facebook.html' %}
 
+    <fb:login-button scope="public_profile,email" onlogin="function(){profile_picture_url=checkLoginState();}">
+    </fb:login-button>
+
     <script>
       var profile_picture_url
       console.log(profile_picture_url)
     </script>
-
-    <fb:login-button scope="public_profile,email" onlogin="function(){profile_picture_url=checkLoginState();}">
-    </fb:login-button>
 
   </body>
 </html>
