@@ -27,14 +27,22 @@ def start():
             player_id_2=player_id_2)
     return resp
 
+@app.route('/boardstate/<game_id>')
+def board(game_id):
+
+    x = games.get(int(game_id))
+    while x is None:
+        x = games.get(int(game_id))
+
+    resp = json.dumps([x.board.return_board_3(), x.current_player.color])
+    return resp
+
 
 @app.route('/index/<game_id>/<player_id>')
 def index(game_id, player_id):
 
     global player_must_move
     global player_must_jump
-
-    x = games[int(game_id)]
 
     row = request.args.get("row") or 0
     col = request.args.get("col") or 0
@@ -45,6 +53,11 @@ def index(game_id, player_id):
     col = int(col)
     to_row = int(to_row)
     to_col = int(to_col)
+
+
+    x = games.get(int(game_id))
+    while x is None:
+        x = games.get(int(game_id))
 
     if player_must_move:
         row = player_must_move[0]
