@@ -10,7 +10,6 @@
      <div id="current_board" class="current_board">
      {% for row in range(8)%}
 
-     <img id="profile_picture">
      <div>
             {% for col in range(8) %}
              {% if board[row][col] == "R" %}
@@ -220,6 +219,8 @@
       }
     }
     </script>
+
+    {% include 'facebook.html' %}
 
   </body>
 </html>
