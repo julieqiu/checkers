@@ -1,5 +1,8 @@
 <script>
   // This is called with the results from from FB.getLoginStatus().
+  var profile_picture_url
+
+
   function statusChangeCallback(response) {
     console.log('statusChangeCallback');
     console.log(response);
@@ -12,7 +15,7 @@
       testAPI(function(test){
         photoAPI(test, function(photo)
         {
-          return photo;
+          profile_picture_url = photo;
         });
       });
 
@@ -98,3 +101,8 @@
     });
   }
 </script>
+
+<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+</fb:login-button>
+
+<div id="status"></div>
