@@ -42,47 +42,44 @@ def index(game_id, player_id):
 
     x = games[int(game_id)]
 
-    try:
-        row = request.args.get("row")
-        col = request.args.get("col")
-        to_row = request.args.get("to_row")
-        to_col = request.args.get("to_col")
 
-        row = int(row)
-        col = int(col)
-        to_row = int(to_row)
-        to_col = int(to_col)
+    row = request.args.get("row")
+    col = request.args.get("col")
+    to_row = request.args.get("to_row")
+    to_col = request.args.get("to_col")
 
-        if player_must_move:
-            row = player_must_move[0]
-            col = player_must_move[1]
+    row = int(row)
+    col = int(col)
+    to_row = int(to_row)
+    to_col = int(to_col)
 
-        if x.current_player.color != player_id:
-            raise "It's not your turn"
-        elif not x.client_check_valid_piece(row, col):
-            raise "Invalid Piece Selected"
-        elif x.board.is_valid_move(row, col, to_row, to_col) and not \
-        player_must_jump:
-            x.board.make_move(row, col, to_row, to_col)
+    if player_must_move:
+        row = player_must_move[0]
+        col = player_must_move[1]
+
+    if x.current_player.color != player_id:
+        print "It's not your turn"
+    elif not x.client_check_valid_piece(row, col):
+        print "Invalid Piece Selected"
+    elif x.board.is_valid_move(row, col, to_row, to_col) and not \
+    player_must_jump:
+        x.board.make_move(row, col, to_row, to_col)
+        x.switch_player()
+    elif x.board.is_valid_jump(row, col, to_row, to_col):
+        x.board.make_jump(row, col, to_row, to_col)
+        row, col = to_row, to_col
+        if not x.jump_available(row, col):
             x.switch_player()
-        elif x.board.is_valid_jump(row, col, to_row, to_col):
-            x.board.make_jump(row, col, to_row, to_col)
-            row, col = to_row, to_col
-            if not x.jump_available(row, col):
-                x.switch_player()
-                player_must_jump = False
-                player_must_move = None
-            else:
-                player_must_jump = True
-                player_must_move = [row, col]
-        if x.check_game_over():
-            print "Game Over"
+            player_must_jump = False
+            player_must_move = None
+        else:
+            player_must_jump = True
+            player_must_move = [row, col]
+    if x.check_game_over():
+        print "Game Over"
 
-    except Exception as e:
-        pass
-    
     board = x.board.return_board_3()
-    
+
     current_player = x.current_player.color
     print board
 
