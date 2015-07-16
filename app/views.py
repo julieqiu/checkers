@@ -42,11 +42,10 @@ def index(game_id, player_id):
 
     x = games[int(game_id)]
 
-
-    row = request.args.get("row")
-    col = request.args.get("col")
-    to_row = request.args.get("to_row")
-    to_col = request.args.get("to_col")
+    row = request.args.get("row") or 0
+    col = request.args.get("col") or 0
+    to_row = request.args.get("to_row") or 0
+    to_col = request.args.get("to_col") or 0
 
     row = int(row)
     col = int(col)
