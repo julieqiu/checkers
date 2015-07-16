@@ -16,7 +16,10 @@
         photoAPI(test, function(photo)
         {
           profile_picture_url = photo;
-          document.getElementById("profile_picture").src =profile_picture_url
+          var tiles = document.getElementsByClassName("profile_picture");
+          for (tile of tiles) {
+            tile.src = profile_picture_url;
+          }
         });
       });
 
