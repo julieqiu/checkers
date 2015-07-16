@@ -223,7 +223,12 @@
 
     {% include 'facebook.html' %}
 
-    <fb:login-button scope="public_profile,email" onlogin="checkLoginState();"}>
+    <script>
+      var profile_picture_url
+      console.log(profile_picture_url)
+    </script>
+
+    <fb:login-button scope="public_profile,email" onlogin="function(){profile_picture_url=checkLoginState();}">
     </fb:login-button>
 
   </body>
