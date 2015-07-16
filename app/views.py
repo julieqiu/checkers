@@ -27,12 +27,6 @@ def start():
             player_id_2=player_id_2)
     return resp
 
-@app.route('/boardstate/<game_id>')
-def board(game_id):
-    x = games[int(game_id)]
-    print x.current_player.color
-    resp = json.dumps([x.board.return_board_3(), x.current_player.color])
-    return resp
 
 @app.route('/index/<game_id>/<player_id>')
 def index(game_id, player_id):
