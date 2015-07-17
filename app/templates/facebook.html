@@ -17,8 +17,8 @@
         {
           profile_picture_url = photo;
           var tiles = document.getElementsByClassName("profile_picture");
-          for (tile of tiles) {
-            tile.src = profile_picture_url;
+          for (tile in tiles) {
+            tiles[tile].src = profile_picture_url;
           }
         });
       });
@@ -47,7 +47,7 @@
 
   window.fbAsyncInit = function() {
   FB.init({
-    appId      : '1464686400492840',
+    appId      : '1596340763953815',
     cookie     : true,  // enable cookies to allow the server to access
                         // the session
     xfbml      : true,  // parse social plugins on this page
@@ -88,15 +88,15 @@
     console.log('Welcome!  Fetching your information.... ');
 
     FB.api('/me', function(response) {
-      console.log('Successful login for: ' + response.id);
+      console.log('Successful login for: ' + response.name);
       document.getElementById('status').innerHTML =
-        'Thanks for logging in, ' + response.id + '!';
+        'Thanks for logging in, ' + response.name + '!';
       callback(response.id);
     });
   }
 
   function photoAPI(userid, callback) {
-    FB.api('/'+userid+'/picture', function(response) {
+    FB.api('/'+userid+'/picture?&height=64&width=64', function(response) {
       if (response.error) {
         console.log("ERROR")
       } else {
@@ -110,3 +110,4 @@
 </fb:login-button>
 
 <div id="status"></div>
+
