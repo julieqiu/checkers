@@ -28,7 +28,7 @@
              <button id="{{row}}{{col}}" class = "blacktile" onclick="movePiece({{row}},{{col}})"></button>
 
              {% elif board[row][col] == "W" %}
-             <img class="profile_picture">
+             <img src = {{url_for('static', filename = "blank1.gif")}} class="profile_picture">
 
              {% endif %}
 
