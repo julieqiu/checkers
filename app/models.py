@@ -2,7 +2,7 @@ from flask import Flask, g
 import sqlite3
 import pickle
 
-DATABASE = "database.db"
+DATABASE = "app/database.db"
 
 def connect_to_database():
     return sqlite3.connect(DATABASE)
