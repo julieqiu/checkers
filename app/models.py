@@ -1,10 +1,8 @@
 from flask import Flask, g
 import sqlite3
-
-app = Flask(__name__)
+import pickle
 
 DATABASE = "app/database.db"
-
 
 def connect_to_database():
     return sqlite3.connect(DATABASE)
@@ -36,42 +34,27 @@ def query_game(game_id):
     game = query_db('SELECT * FROM games WHERE game_id=?',[game_id])
     return game[0]
 
-def query_current_player(game_id):
-    game = query_game(game_id)
-    return game['current_player'].encode("ascii")
-
-def query_red_pieces(game_id):
-    game = query_game(game_id)
-    return game['red_pieces']
-
-def query_blue_pieces(game_id):
-    game = query_game(game_id)
-    return game['blue_pieces']
-
-
 def query_board(game_id):
     game = query_game(game_id)
-    return game['board'].encode("ascii")
+    return pickle.loads(game['board_state'])
 
 
-def insert_game(game_id, current_player,
-                red_pieces, blue_pieces, board_state):
+def insert_game(game_id, checkers_game):
     db = get_db()
     cursor = db.cursor()
-    cursor.execute("INSERT INTO games (game_id, current_player,\
-                 red_pieces, blue_pieces, board_state) VALUES (?,?,?,?,?)",
-                 (game_id, current_player, red_pieces, blue_pieces, board_state))
+    board = pickle.dumps(checkers_game)
+
+    cursor.execute("INSERT INTO games (game_id, board_state)\
+                    VALUES (?,?)",
+                 (game_id, board))
     db.commit()
 
-def update_game(game_id, current_player,
-                red_pieces, blue_pieces, board_state):
+def update_game(game_id, checkers_game):
     db = get_db()
     cursor = db.cursor()
+    board = pickle.dumps(checkers_game)
     cursor.execute("UPDATE games \
-                    SET current_player=?,\
-                        red_pieces=?,\
-                        blue_pieces=?,\
-                        board_state=?\
+                    SET board_state=?\
                     WHERE game_id=?",
-        (current_player, red_pieces, blue_pieces, board_state, game_id))
+        (board, game_id))
     db.commit()

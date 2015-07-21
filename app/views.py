@@ -30,9 +30,7 @@ def start():
     print game_id
     x = checkers.Checkers(player_id_1, player_id_2)
 
-    insert_game(game_id, x.current_player.color,
-        x.board.red_pieces,
-        x.board.black_pieces, str(x.board.return_board_3()))
+    insert_game(game_id, x)
 
     print query_game(game_id)
 
@@ -45,10 +43,10 @@ def start():
 
 @app.route('/boardstate/<game_id>')
 def board(game_id):
-
-    x = games.get(int(game_id))
+    
+    x = query_board(str(game_id))
     while x is None:
-        x = games.get(int(game_id))
+        x = query_board(str(game_id))
 
     resp = json.dumps([x.board.return_board_3(), x.current_player.color])
     return resp
@@ -70,10 +68,9 @@ def index(game_id, player_id):
     to_row = int(to_row)
     to_col = int(to_col)
 
-
-    x = games.get(int(game_id))
+    x = query_board(str(game_id))
     while x is None:
-        x = games.get(int(game_id))
+        x = query_board(str(game_id))
 
     if player_must_move:
         row = player_must_move[0]
@@ -97,8 +94,11 @@ def index(game_id, player_id):
         else:
             player_must_jump = True
             player_must_move = [row, col]
+
     if x.check_game_over():
         print "Game Over"
+
+    update_game(game_id, x)
 
     board = x.board.return_board_3()
 
