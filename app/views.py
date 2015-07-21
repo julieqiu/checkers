@@ -1,30 +1,46 @@
-from flask import render_template, Markup, request, make_response
+from flask import render_template, request, make_response
 from app import app
 import checkers
 import json
+from models import *
+import string
+import random
+import sqlite3
 
 user = {'nickname': 'Miguel'}  # fake user
 moves_lst = ["0", "1", "2", "3", "4", "5", "6", "7"]
 player_lst = ["R", "B"]
-game_id = 0
-games = {}
 player_id_1 = "R"
 player_id_2 = "B"
 player_must_jump = False
 player_must_move = None
+game_id = ""
+uppers = string.ascii_uppercase
+lowers = string.ascii_lowercase
+digits = string.digits
+chars = uppers + lowers + digits
+
 
 @app.route('/')
 def start():
     global game_id
-    game_id += 1
+    print "start"
 
-    games[game_id] = checkers.Checkers(player_id_1, player_id_2)
+    game_id = "".join(random.choice(chars) for _ in range(6))
+    print game_id
+    x = checkers.Checkers(player_id_1, player_id_2)
+
+    insert_game(game_id, x.current_player.color,
+        x.board.red_pieces,
+        x.board.black_pieces, str(x.board.return_board_3()))
+
+    print query_game(game_id)
 
     resp = render_template('start.html',
-            title='Checkers',
-            game_id=game_id,
-            player_id_1=player_id_1,
-            player_id_2=player_id_2)
+        title='Checkers',
+        game_id=game_id,
+        player_id_1=player_id_1,
+        player_id_2=player_id_2)
     return resp
 
 @app.route('/boardstate/<game_id>')

@@ -5,7 +5,13 @@
     <link rel="stylesheet" type="text/css" href="{{url_for("static", filename="index.css")}}">
   </head>
   <body>
-     <div id="hello"><h1>Hello, {{ player_id }}!</h1></div>
+     <div id="hello">
+      {% if player_id == "R" %}
+        <h1>Hello! Your piece is Red</h1>
+      {% elif player_id == "B" %}
+        <h1>Hello! Your piece is Blue</h1>
+      {% endif %}
+     </div>
 
      <div id="current_board" class="current_board">
      {% for row in range(8)%}
@@ -28,13 +34,14 @@
              <button id="{{row}}{{col}}" class = "blacktile" onclick="movePiece({{row}},{{col}})"></button>
 
              {% elif board[row][col] == "W" %}
-             <img src = {{url_for('static', filename = "blank1.gif")}} class="profile_picture">
+             <img src = {{url_for('static', filename = "blank1.gif")}} class = "whitetile">
 
              {% endif %}
 
            {% endfor %}
       </div>
           {% endfor %}
+      <div id="message"></div>
 {#
              {% if board[row][col] == "R" %}
              <img src = {{url_for('static', filename = "red.gif")}} onclick="selectPiece({{row}},{{col}})">
@@ -67,7 +74,7 @@
      </div>
 
 
-    <div id="message"></div>
+
 
     <div>
         <form id="myForm" action = "/index/{{game_id}}/{{player_id}}">
@@ -112,8 +119,8 @@
         current = JSON.parse(response.target.responseText)
         serverboard = current[0]
         serverplayer = current[1]
-        compareBoards(serverboard,getBoardState())
         updatePlayer(serverplayer)
+        compareBoards(serverboard,getBoardState())
         })
       },500)
 
@@ -189,12 +196,6 @@
                 newClass = "blueking";
                 newClick = "selectPiece("+i+","+j+")";
                 break;
-              case "W":
-                console.log("W")
-                newClass = "whitetile";
-                newClick = "movePiece("+i+","+j+")";
-                console.log(newClick)
-                break;
               case "G":
                 newClass = "blacktile";
                 newClick = "movePiece("+i+","+j+")";
@@ -219,10 +220,5 @@
       }
     }
     </script>
-
-
-    {% include 'facebook.html' %}
-
-
   </body>
 </html>
