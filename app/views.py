@@ -43,7 +43,7 @@ def start():
 
 @app.route('/boardstate/<game_id>')
 def board(game_id):
-    
+
     x = query_board(str(game_id))
     while x is None:
         x = query_board(str(game_id))
@@ -54,6 +54,8 @@ def board(game_id):
 
 @app.route('/index/<game_id>/<player_id>')
 def index(game_id, player_id):
+
+    print game_id
 
     global player_must_move
     global player_must_jump
@@ -119,12 +121,3 @@ def index(game_id, player_id):
                            player_id=player_id,
                            current_player=current_player))
     return resp
-
-@app.route('/move/<row>/<col>/<to_row>/<to_col>')
-def move_piece(row, col, to_row, to_col):
-    row = int(row)
-    col = int(col)
-    to_row = int(to_row)
-    to_col = int(to_col)
-    x.board.make_move(row, col, to_row, to_col)
-    return index()
