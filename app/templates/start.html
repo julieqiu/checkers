@@ -1,12 +1,22 @@
 <html>
   <head>
     <title>Checkers</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for("static", filename="css/bootstrap.css")}}">
+    <link rel="stylesheet" type="text/css" href="{{url_for("static", filename="css/start.css")}}">
   </head>
   <body>
-     <div><h1>Hello! Would you like to play checkers?</h1></div>
-     <a href="https://gentle-taiga-7689.herokuapp.com/index/{{game_id}}/{{player_id_1}}">Play!</a>
-     <p> Give this link to your partner </p>
-     <p>gentle-taiga-7689.herokuapp.com/{{game_id}}/{{player_id_2}}</p>
+     <div class = 'container' id='greeting'><center>
+         <h1>Hello!</h1>
+         <h2>Would you like to play checkers?</h2>
+     </div>
+
+     <div class = 'container' id='partner_link'><center>
+         <p> Give this link to your partner:</p>
+         <p>https://gentle-taiga-7689.herokuapp.com/{{game_id}}/{{player_id_2}}</p>
+     </center></div>
+
+     <center><button class="btn btn-success btn-lg" a href="https://gentle-taiga-7689.herokuapp.com/index/{{game_id}}/{{player_id_1}}">Play!</button></center>
+
 
   </body>
 </html>

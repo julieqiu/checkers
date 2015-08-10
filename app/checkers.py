@@ -6,26 +6,26 @@ class Board:
         self.column = 8
         self.red_pieces = 12
         self.black_pieces = 12
-        # self.board = [[None for x in range(self.row)]
-        #               for i in range(self.column)]
+        self.board = [[None for x in range(self.row)]
+                      for i in range(self.column)]
 
-        # for row in range(3):
-        #     for tile in range(8):
-        #         if (row % 2) == (tile % 2):
-        #             self.board[row][tile] = Piece("R")
-        # for row in range(5, 8):
-        #     for tile in range(8):
-        #         if (row % 2) == (tile % 2):
-        #             self.board[row][tile] = Piece("B")
+        for row in range(3):
+            for tile in range(8):
+                if (row % 2) == (tile % 2):
+                    self.board[row][tile] = Piece("R")
+        for row in range(5, 8):
+            for tile in range(8):
+                if (row % 2) == (tile % 2):
+                    self.board[row][tile] = Piece("B")
 
-        self.board = [[Piece("R"),None,Piece("R"),None,Piece("R"),None,Piece("R"), None],
-                     [None,Piece("R"),None,None,None,Piece("R"),None,Piece("R")],
-                     [Piece("R"),None,Piece("R"),None,Piece("R"),None,None,None],
-                     [None,None,None,Piece("B"),None,None,None,Piece("R")],
-                     [None,None,None,None,Piece("B"),None,Piece("B"),None],
-                     [None,Piece("B"),None,Piece("B"),None,None,None,None],
-                     [None,None,Piece("B"),None,Piece("B"),None,None,None],
-                     [None,Piece("B"),None,Piece("B"),None,Piece("B"),None,Piece("B")]]
+        # self.board = [[Piece("R"),None,Piece("R"),None,Piece("R"),None,Piece("R"), None],
+        #              [None,Piece("R"),None,None,None,Piece("R"),None,Piece("R")],
+        #              [Piece("R"),None,Piece("R"),None,Piece("R"),None,None,None],
+        #              [None,None,None,Piece("B"),None,None,None,Piece("R")],
+        #              [None,None,None,None,Piece("B"),None,Piece("B"),None],
+        #              [None,Piece("B"),None,Piece("B"),None,None,None,None],
+        #              [None,None,Piece("B"),None,Piece("B"),None,None,None],
+        #              [None,Piece("B"),None,Piece("B"),None,Piece("B"),None,Piece("B")]]
 
         # self.board = [[None,None,None,None,None,None,None,None],
         #              [None,None,None,None,None,None,None,None],

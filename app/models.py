@@ -2,12 +2,10 @@ from flask import Flask, g
 import sqlite3
 import pickle
 
-
 DATABASE = "app/database.db"
 
 def connect_to_database():
     return sqlite3.connect(DATABASE)
-
 
 def get_db():
     db = getattr(g, '_database', None)

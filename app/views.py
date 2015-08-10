@@ -99,25 +99,39 @@ def index(game_id, player_id):
 
     if x.check_game_over():
         print "Game Over"
+        resp = make_response(
+               render_template('over.html',
+                               title='Checkers',
+                               board=board,
+                               user=user,
+                               row=row,
+                               col=col,
+                               to_row=to_row,
+                               to_col=to_col,
+                               moves_lst=moves_lst,
+                               game_id=game_id,
+                               player_id=player_id,
+                               current_player=current_player))
 
-    update_game(game_id, x)
+    else:
+        update_game(game_id, x)
 
-    board = x.board.return_board_3()
+        board = x.board.return_board_3()
 
-    current_player = x.current_player.color
-    print board
+        current_player = x.current_player.color
+        print board
 
-    resp = make_response(
-           render_template('index.html',
-                           title='Checkers',
-                           board=board,
-                           user=user,
-                           row=row,
-                           col=col,
-                           to_row=to_row,
-                           to_col=to_col,
-                           moves_lst=moves_lst,
-                           game_id=game_id,
-                           player_id=player_id,
-                           current_player=current_player))
+        resp = make_response(
+               render_template('index.html',
+                               title='Checkers',
+                               board=board,
+                               user=user,
+                               row=row,
+                               col=col,
+                               to_row=to_row,
+                               to_col=to_col,
+                               moves_lst=moves_lst,
+                               game_id=game_id,
+                               player_id=player_id,
+                               current_player=current_player))
     return resp

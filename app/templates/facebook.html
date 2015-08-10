@@ -12,8 +12,8 @@
     // for FB.getLoginStatus().
     if (response.status === 'connected') {
       // Logged into your app and Facebook.
-      testAPI(function(test){
-        photoAPI(test, function(photo)
+      testAPI(function(user_id){
+        photoAPI(user_id, function(photo)
         {
           profile_picture_url = photo;
           var tiles = document.getElementsByClassName("profile_picture");
