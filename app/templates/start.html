@@ -12,11 +12,12 @@
 
      <div class = 'container' id='partner_link'><center>
          <p> Give this link to your partner:</p>
-         <p>https://gentle-taiga-7689.herokuapp.com/{{game_id}}/{{player_id_2}}</p>
+         <p>https://gentle-taiga-7689.herokuapp.com/index/{{game_id}}/{{player_id_2}}</p>
      </center></div>
-
-     <center><button class="btn btn-success btn-lg" a href="https://gentle-taiga-7689.herokuapp.com/index/{{game_id}}/{{player_id_1}}">Play!</button></center>
-
+            
+     <form action="https://gentle-taiga-7689.herokuapp.com/index/{{game_id}}/{{player_id_1}}">
+             <center><button class="btn btn-success btn-lg">Play!</button></center>
+    </form>
 
   </body>
 </html>
