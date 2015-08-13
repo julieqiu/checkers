@@ -1,11 +1,3 @@
-# checkers
+### Checkers
 
-Completed July 8:
-
-
-To Do July 9: 
-- Kings
-- Multiple Jumps
-- Divide main game loop into more functions
-- Flask
-
+A real-time Python implementation of Checkers using Flask. Play the game with a partner here:
