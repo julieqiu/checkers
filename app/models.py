@@ -57,3 +57,4 @@ def update_game(game_id, checkers_game):
                     WHERE game_id=?",
         (board, game_id))
     db.commit()
+
