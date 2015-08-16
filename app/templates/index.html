@@ -96,9 +96,10 @@
     serverboard = current[0]
     serverplayer = current[1]
     updatePlayer(serverplayer)
-    compareBoards(serverboard,getBoardState())
+    clientboard = getBoardState()
+    compareBoards(serverboard, clientboard)
     })
-  },500)
+  },5000000000)
 
 
     var getBoardState = function(){
@@ -109,65 +110,75 @@
       for (i = 0; i < nodes.length; i++){
         var j;
         var current_row = [];
-        for (j = 0; j < nodes[i].children.length; j++){
-            piece = nodes[i].children[j].className;
-            switch (piece) {
-              case "redpiece":
-                current_row.push("R")
-                break;
-              case "bluepiece":
-                current_row.push("B")
-                break;
-              case "redking":
-                current_row.push("r")
-                break;
-              case "blueking":
-                current_row.push("b")
-                break;
-              case "whitetile":
-                current_row.push("W")
-                break;
-              case "blacktile":
-                current_row.push("G")
-                break;
-              default:
-                break;
+        for (j = 0; j < nodes[0].children.length; j++){
+            var k;
+            for (k = 0; k < nodes[0].children[j].length; k++) {
+                    piece = nodes[i].children[j].children[k].className;
+                    console.log("piece: "+piece)
+                    switch (piece) {
+                      case "redpiece":
+                        current_row.push("R")
+                        break;
+                      case "bluepiece":
+                        current_row.push("B")
+                        break;
+                      case "redking":
+                        current_row.push("r")
+                        break;
+                      case "blueking":
+                        current_row.push("b")
+                        break;
+                      case "whitetile":
+                        current_row.push("W")
+                        break;
+                      case "blacktile":
+                        current_row.push("G")
+                        break;
+                      default:
+                        break;
+                    }   
             }
         }
         current_board.push(current_row);
+        console.log("row: "+current_row);
       }
       return current_board;
     }
 
     var compareBoards = function(serverboard, clientboard) {
+            console.log('serverboard:'+serverboard)
+            console.log('clientboard:'+clientboard);
       for (var i = 0; i < serverboard.length; i++) {
         for (var j = 0; j < serverboard[i].length; j++) {
           if (serverboard[i][j] != clientboard[i][j]){
 
+            console.log('board-difference-exists')
             var newClass = ""
             var newClick = ""
 
             console.log(serverboard[i][j]);
+            console.log(clientboard[i][j]);
+            console.log('i,j: '+i+j);
 
             switch (serverboard[i][j]) {
 
               case "R":
-                console.log("R")
+                console.log("R: "+i+j)
                 newClass = "redpiece";
                 newClick = "movePiece("+i+","+j+")";
                 break;
               case "B":
-                console.log("B")
+                console.log("B: "+i+j)
                 newClass = "bluepiece";
                 newClick = "selectPiece("+i+","+j+")";
                 break;
               case "r":
-                console.log("r")
+                console.log("r: "+i+j)
                 newClass = "redking";
                 newClick = "selectPiece("+i+","+j+")";
                 break;
               case "b":
-                console.log("b")
+                console.log("b: "+i+j)
                 newClass = "blueking";
                 newClick = "selectPiece("+i+","+j+")";
                 break;
