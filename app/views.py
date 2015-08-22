@@ -7,7 +7,6 @@ import string
 import random
 import sqlite3
 
-user = {'nickname': 'Miguel'}  # fake user
 moves_lst = ["0", "1", "2", "3", "4", "5", "6", "7"]
 player_lst = ["R", "B"]
 player_id_1 = "R"
@@ -19,7 +18,6 @@ uppers = string.ascii_uppercase
 lowers = string.ascii_lowercase
 digits = string.digits
 chars = uppers + lowers + digits
-
 
 @app.route('/')
 def start():
@@ -103,7 +101,6 @@ def index(game_id, player_id):
                render_template('over.html',
                                title='Checkers',
                                board=board,
-                               user=user,
                                row=row,
                                col=col,
                                to_row=to_row,
@@ -125,7 +122,6 @@ def index(game_id, player_id):
                render_template('index.html',
                                title='Checkers',
                                board=board,
-                               user=user,
                                row=row,
                                col=col,
                                to_row=to_row,

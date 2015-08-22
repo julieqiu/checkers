@@ -1,4 +1,3 @@
-
 <html>
   <head>
     <title>{{ title }}</title>
@@ -18,7 +17,7 @@
      <div id="current_board" class="current_board"><center>
      {% for row in range(8)%}
 
-     <div>
+     <div class='row'>
             {% for col in range(8) %}
              {% if board[row][col] == "R" %}
              <button id="{{row}}{{col}}" class = "redpiece" onclick="selectPiece({{row}},{{col}})"></button>
@@ -78,69 +77,59 @@
 
     player_id = "{{player_id}}"
 
-    var callAjax = function (callback)
-      {
-        var xmlhttp=new XMLHttpRequest();
-        xmlhttp.onload=callback;
+    var callAjax = function (callback) {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onload = callback;
         xmlhttp.open("GET", "/boardstate/{{game_id}}",true);
         xmlhttp.send();
+    }
 
-            //console.log(xmlhttp.responseText);
-            //document.getElementsByClassName("current_board").innerHTML=xmlhttp.responseText;
-            //console.log(document.getElementsByClassName("current_board").innerHTML)
-      }
+    var ajax_interval = setInterval(function(){
+            var processResp = function(response) {
+                    current = JSON.parse(response.target.responseText)
+                    serverboard = current[0]
+                    serverplayer = current[1]
+                    updatePlayer(serverplayer)
+                    clientboard = getBoardState()
+                    compareBoards(serverboard, clientboard)
+            };
+            callAjax(processResp);
 
-    setInterval(function(){
-    callAjax(function(response){
-    current = JSON.parse(response.target.responseText)
-    serverboard = current[0]
-    serverplayer = current[1]
-    updatePlayer(serverplayer)
-    clientboard = getBoardState()
-    compareBoards(serverboard, clientboard)
-    })
-  },5000000000)
+    }, 500)
 
-
-    var getBoardState = function(){
-      var board = document.getElementById("current_board");
-      var nodes = document.getElementById("current_board").children;
+    
+    var getBoardState = function() {
+      var nodes = document.getElementsByClassName("row");
       var current_board = [];
-      var i;
-      for (i = 0; i < nodes.length; i++){
-        var j;
+      for (var i = 0; i < nodes.length; i++){
         var current_row = [];
-        for (j = 0; j < nodes[0].children.length; j++){
-            var k;
-            for (k = 0; k < nodes[0].children[j].length; k++) {
-                    piece = nodes[i].children[j].children[k].className;
-                    console.log("piece: "+piece)
-                    switch (piece) {
-                      case "redpiece":
-                        current_row.push("R")
-                        break;
-                      case "bluepiece":
-                        current_row.push("B")
-                        break;
-                      case "redking":
-                        current_row.push("r")
-                        break;
-                      case "blueking":
-                        current_row.push("b")
-                        break;
-                      case "whitetile":
-                        current_row.push("W")
-                        break;
-                      case "blacktile":
-                        current_row.push("G")
-                        break;
-                      default:
-                        break;
-                    }   
-            }
+        var nodes_children = nodes[i].children
+        for (var j = 0; j < nodes_children.length; j++){
+            piece = nodes_children[j].className;
+            switch (piece) {
+              case "redpiece":
+                current_row.push("R")
+                break;
+              case "bluepiece":
+                current_row.push("B")
+                break;
+              case "redking":
+                current_row.push("r")
+                break;
+              case "blueking":
+                current_row.push("b")
+                break;
+              case "whitetile":
+                current_row.push("W")
+                break;
+              case "blacktile":
+                current_row.push("G")
+                break;
+              default:
+                break;
+            }   
         }
         current_board.push(current_row);
-        console.log("row: "+current_row);
       }
       return current_board;
     }
