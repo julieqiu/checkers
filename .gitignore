@@ -1,7 +1,9 @@
 *.pyc
+./*.pyc
 test_checkers.py
 facebook.html
 test.js
 venv
 database.db
-
+.gitignore
+./.ipynb_checkpoints
